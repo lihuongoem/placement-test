@@ -1,0 +1,431 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Unlock 1 Placement Test — Official Platform</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Playfair+Display:wght@700&display=swap');
+
+    :root {
+      --bg: #0a1120;
+      --card-bg: #121b2f;
+      --yellow: #f7d302;
+      --text: #ffffff;
+      --muted: #94a3b8;
+      --border: rgba(255, 255, 255, 0.1);
+      --glass: rgba(255, 255, 255, 0.03);
+      --choice-bg: #1e293b;
+      --error: #ff4d4d;
+    }
+
+    * { box-sizing: border-box; transition: all 0.3s ease; }
+    body { margin: 0; font-family: 'Inter', sans-serif; background-color: var(--bg); color: var(--text); line-height: 1.4; }
+    .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
+
+    /* --- HERO --- */
+    .hero { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; gap: 30px; }
+    .hero-text h1 { font-family: 'Playfair Display', serif; font-size: clamp(2.2rem, 5vw, 3.2rem); color: var(--yellow); margin: 0; line-height: 1.1; }
+    .hero-text p { font-size: 1rem; color: var(--muted); margin-top: 8px; }
+    .hero-book img { width: 140px; border-radius: 6px; box-shadow: 10px 10px 30px rgba(0,0,0,0.5); }
+
+    /* --- INSTRUCTOR CARD --- */
+    .instructor-card {
+      background-color: var(--card-bg);
+      border-radius: 25px;
+      padding: 25px;
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 30px;
+      border: 1px solid var(--border);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+      margin-bottom: 25px;
+    }
+    .instr-img-frame { border: 3px solid var(--yellow); border-radius: 18px; overflow: hidden; height: 280px; }
+    .instr-img-frame img { width: 100%; height: 100%; object-fit: cover; }
+    .instr-body h2 { font-size: 2.2rem; margin: 5px 0; font-weight: 800; line-height: 1; color: white; }
+    .instr-body .ma { color: var(--yellow); font-weight: 700; font-size: 1rem; margin: 8px 0 15px; }
+    .instr-line { height: 1px; background: rgba(255,255,255,0.1); margin-bottom: 15px; }
+    .instr-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+    .instr-item strong { color: var(--yellow); font-size: 0.65rem; text-transform: uppercase; display: block; margin-bottom: 3px; }
+    .instr-item p { margin: 0; color: var(--muted); font-size: 0.85rem; line-height: 1.3; }
+
+    /* --- QUIZ UI --- */
+    .quiz-card { background: var(--card-bg); border-radius: 20px; padding: 30px; border: 1px solid var(--border); margin-top: 20px; position: relative; }
+    .input-field { width: 100%; background: rgba(0,0,0,0.3); border: 1px solid var(--border); padding: 12px; border-radius: 10px; color: white; margin-top: 5px; font-size: 0.95rem; }
+    .q-box { background: var(--glass); padding: 20px; border-radius: 15px; margin-bottom: 20px; }
+    .q-text { font-weight: 700; font-size: 1.05rem; margin-bottom: 15px; }
+    
+    .error-msg { color: var(--error); font-size: 0.75rem; margin-top: 5px; display: none; }
+    .section-error { color: var(--error); font-size: 0.85rem; text-align: right; margin-bottom: 10px; display: none; }
+
+    .choice-label { display: flex; align-items: center; gap: 12px; padding: 12px 20px; border-radius: 12px; background: var(--choice-bg); cursor: pointer; margin-top: 8px; border: 1px solid transparent; }
+    .choice-label:hover { background: #2d3748; transform: translateX(8px); border-color: rgba(247, 211, 2, 0.2); }
+    .choice-label input { position: absolute; opacity: 0; }
+    .custom-radio { height: 18px; width: 18px; border: 2px solid var(--muted); border-radius: 50%; flex-shrink: 0; }
+    .choice-label input:checked ~ .custom-radio { background-color: var(--yellow); border-color: var(--yellow); }
+    
+    .audio-player { position: sticky; top: 10px; z-index: 100; background: #162238; padding: 10px 15px; border-radius: 12px; border: 1px solid var(--yellow); margin-bottom: 20px; }
+    audio { width: 100%; height: 30px; filter: invert(100%); }
+    .instr-text { font-size: 0.85rem; color: var(--muted); margin: -5px 0 20px; font-style: italic; }
+
+    /* --- BUTTONS --- */
+    .btn { padding: 14px 35px; border-radius: 10px; border: none; font-weight: 800; cursor: pointer; font-size: 1rem; }
+    .btn-next { background: var(--yellow); color: var(--bg); }
+    .btn-prev { background: transparent; border: 1px solid var(--border); color: var(--muted); }
+
+    /* --- RESULTS --- */
+    .results-dashboard { display: grid; grid-template-columns: 350px 1fr; gap: 25px; margin-top: 30px; }
+    .student-report { background: var(--card-bg); border-radius: 25px; padding: 35px; border: 1px solid var(--border); text-align: center; }
+    .score-main { font-size: 4.5rem; font-weight: 800; color: var(--yellow); margin: 10px 0; }
+    .grade-badge { display: inline-block; padding: 6px 30px; border-radius: 50px; background: var(--yellow); color: var(--bg); font-weight: 900; font-size: 1.2rem; margin-bottom: 20px; }
+    .breakdown-grid { display: grid; grid-template-columns: 1fr; gap: 10px; margin: 25px 0; text-align: left; max-width: 250px; margin-inline: auto; }
+    .breakdown-box { background: var(--glass); padding: 10px 20px; border-radius: 12px; border: 1px solid var(--border); display: flex; justify-content: space-between; }
+    .status-msg { font-size: 1.8rem; font-weight: 800; color: var(--yellow); margin-bottom: 10px; }
+
+    .progress-wrap { width: 100%; height: 5px; background: rgba(255,255,255,0.1); border-radius: 10px; margin: 20px 0; overflow: hidden; }
+    #p-bar { height: 100%; background: var(--yellow); width: 0%; }
+
+    @media (max-width: 850px) {
+      .hero { flex-direction: column; text-align: center; }
+      .instructor-card, .results-dashboard { grid-template-columns: 1fr; }
+      .instr-img-frame { height: 350px; width: 260px; margin: 0 auto; }
+    }
+    [hidden] { display: none !important; }
+  /* Aurora effect for the Evaluation Report button */
+#step-5 #restartBtn{
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(247, 211, 2, 0.25);
+  background: rgba(255,255,255,0.03);
+  color: #e5e7eb;
+  transform: translateZ(0);
+}
+
+#step-5 #restartBtn::before,
+#step-5 #restartBtn::after{
+  content:"";
+  position:absolute;
+  inset:-60%;
+  z-index:-1;
+  opacity:0;
+  transition: opacity .35s ease, transform .35s ease;
+}
+
+#step-5 #restartBtn::before{
+  background:
+    radial-gradient(40% 35% at 20% 30%, rgba(34, 211, 238, 0.75), transparent 60%),
+    radial-gradient(35% 30% at 75% 35%, rgba(167, 139, 250, 0.75), transparent 60%),
+    radial-gradient(45% 40% at 55% 75%, rgba(110, 231, 183, 0.70), transparent 65%),
+    radial-gradient(35% 35% at 30% 80%, rgba(251, 191, 36, 0.55), transparent 65%);
+  filter: blur(18px);
+  transform: translateY(10%) rotate(6deg);
+}
+
+#step-5 #restartBtn::after{
+  background: linear-gradient(
+    120deg,
+    rgba(34, 211, 238, 0.0),
+    rgba(34, 211, 238, 0.45),
+    rgba(167, 139, 250, 0.45),
+    rgba(110, 231, 183, 0.45),
+    rgba(251, 191, 36, 0.35),
+    rgba(34, 211, 238, 0.0)
+  );
+  background-size: 220% 220%;
+  filter: blur(10px);
+  transform: translateX(-12%);
+}
+
+/* HOVER (desktop) */
+#step-5 #restartBtn:hover{
+  color:#0a1120;
+  transform: translateY(-2px);
+  border-color: rgba(247, 211, 2, 0.55);
+  box-shadow:
+    0 0 0 2px rgba(247, 211, 2, 0.15),
+    0 10px 40px rgba(34, 211, 238, 0.25),
+    0 10px 40px rgba(167, 139, 250, 0.22),
+    0 10px 40px rgba(110, 231, 183, 0.18);
+}
+
+#step-5 #restartBtn:hover::before,
+#step-5 #restartBtn:hover::after{
+  opacity:1;
+}
+
+#step-5 #restartBtn:hover::after{
+  animation: aurora-sheen 2.6s linear infinite;
+}
+
+#step-5 #restartBtn:hover::before{
+  animation: aurora-drift 3.8s ease-in-out infinite alternate;
+}
+
+/* MOBILE TAP (phones/tablets) */
+#step-5 #restartBtn:active{
+  color:#0a1120;
+}
+
+#step-5 #restartBtn:active::before,
+#step-5 #restartBtn:active::after{
+  opacity:1;
+}
+
+@keyframes aurora-sheen{
+  0%{ background-position:0% 50%; }
+  100%{ background-position:100% 50%; }
+}
+
+@keyframes aurora-drift{
+  0%{ transform: translateY(10%) rotate(6deg) scale(1.0); }
+  100%{ transform: translateY(-4%) rotate(-6deg) scale(1.08); }
+}</style>
+</head>
+<body>
+
+  <div class="container">
+    <section id="step-0">
+      <div class="hero">
+        <div class="hero-text">
+          <h1>Unlock 1<br>Placement Test</h1>
+          <p>Official Assessment Platform • Third Edition</p>
+        </div>
+        <div class="hero-book"><img src="Unlock_3ED_LS_CT_1_Students_Book_Page_001.jpg" alt="Unlock 1"></div>
+      </div>
+
+      <div class="instructor-card" id="main-instructor-card"></div>
+
+      <div class="quiz-card">
+        <h2 style="color: var(--yellow); margin-top: 0; font-size: 1.2rem; text-transform: uppercase;">Registration</h2>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+          <div>
+            <label style="font-size:0.75rem; font-weight:700; color:var(--muted);">FULL NAME *</label>
+            <input id="studentName" type="text" class="input-field" placeholder="Enter name">
+            <div id="err-name" class="error-msg">* Fill out everything before you proceed.</div>
+          </div>
+          <div>
+            <label style="font-size:0.75rem; font-weight:700; color:var(--muted);">CLASS / GROUP *</label>
+            <input id="studentClass" type="text" class="input-field" placeholder="Class">
+            <div id="err-class" class="error-msg">* Fill out everything before you proceed.</div>
+          </div>
+        </div>
+        <div style="text-align: center; margin-top: 30px;"><button onclick="validateAndNext(1)" class="btn btn-next">Begin Test</button></div>
+      </div>
+    </section>
+
+    <div class="progress-wrap" id="pb-wrap" hidden><div id="p-bar"></div></div>
+
+    <main id="main-wizard">
+      <!-- Parts renamed to ONE, TWO, etc -->
+      <section id="step-1" class="quiz-card" hidden>
+        <h2 style="color:var(--yellow); font-size: 1.2rem; text-transform: uppercase;">Part ONE: Vocabulary</h2>
+        <p class="instr-text">Choose the most appropriate word to complete each sentence.</p>
+        <div id="vocab-questions"></div>
+        <div id="err-step-1" class="section-error">* Fill out everything before you proceed.</div>
+        <div style="display:flex; justify-content:space-between;"><button onclick="goToStep(0)" class="btn btn-prev">Back</button><button onclick="validateAndNext(2)" class="btn btn-next">Next</button></div>
+      </section>
+
+      <section id="step-2" class="quiz-card" hidden>
+        <h2 style="color:var(--yellow); font-size: 1.2rem; text-transform: uppercase;">Part TWO: Grammar</h2>
+        <p class="instr-text">Select the correct grammatical form to complete the sentences.</p>
+        <div id="grammar-questions"></div>
+        <div id="err-step-2" class="section-error">* Fill out everything before you proceed.</div>
+        <div style="display:flex; justify-content:space-between;"><button onclick="goToStep(1)" class="btn btn-prev">Back</button><button onclick="validateAndNext(3)" class="btn btn-next">Next</button></div>
+      </section>
+
+      <section id="step-3" class="quiz-card" hidden>
+        <h2 style="color:var(--yellow); font-size: 1.2rem; text-transform: uppercase;">Part THREE: Listening One</h2>
+        <p class="instr-text">Listen and choose the correct answer.</p>
+        <div class="audio-player"><audio controls src="listening_test.mp3"></audio></div>
+        <div id="listenA-questions"></div>
+        <div id="err-step-3" class="section-error">* Fill out everything before you proceed.</div>
+        <div style="display:flex; justify-content:space-between;"><button onclick="goToStep(2)" class="btn btn-prev">Back</button><button onclick="validateAndNext(4)" class="btn btn-next">Next</button></div>
+      </section>
+
+      <section id="step-4" class="quiz-card" hidden>
+        <h2 style="color:var(--yellow); font-size: 1.2rem; text-transform: uppercase;">Part FOUR: Listening Two</h2>
+        <p class="instr-text">Listen and choose the correct answer.</p>
+        <div class="audio-player"><audio controls src="listening_test.mp3"></audio></div>
+        <div id="listenB-questions"></div>
+        <div id="err-step-4" class="section-error">* Fill out everything before you proceed.</div>
+        <div style="display:flex; justify-content:space-between;"><button onclick="goToStep(3)" class="btn btn-prev">Back</button><button id="submitBtn" class="btn btn-next">Submit</button></div>
+      </section>
+
+      <!-- Evaluation Report -->
+      <section id="step-5" hidden>
+        <h1 style="text-align: center; color: var(--yellow); font-family: 'Playfair Display'; font-size: 2.2rem; margin-bottom: 20px;">Evaluation Report</h1><p class="eval-subtitle">Unlock One <span>3rd Edition</span> by Cambridge</p>
+        <div class="results-dashboard">
+          <div id="res-instructor-card"></div>
+          <div class="student-report">
+            <div id="passMsg" class="status-msg"></div>
+            <h2 id="resName" style="margin: 0; font-size: 1.8rem;"></h2>
+            <p id="resClass" style="color: var(--muted); margin: 5px 0 15px;"></p>
+            <div class="grade-badge" id="resGrade">GRADE: F</div>
+            <div class="score-main" id="resScore">0 / 30</div>
+            <div class="breakdown-grid">
+              <div class="breakdown-box"><strong>Vocabulary:</strong><span id="v-score">0/10</span></div>
+              <div class="breakdown-box"><strong>Grammar:</strong><span id="g-score">0/10</span></div>
+              <div class="breakdown-box"><strong>Listening:</strong><span id="l-score">0/10</span></div>
+            </div>
+            <!-- Dynamic Button based on score -->
+            <button id="restartBtn" onclick="location.reload()" class="btn btn-prev" style="width: 100%;"></button>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const TEACHER_HTML = `
+      <div class="instr-img-frame"><img src="OEM LIHUONG.jpg" alt="Instructor"></div>
+      <div class="instr-body">
+        <div class="role" style="color:var(--yellow); font-weight:800; font-size:0.7rem; text-transform:uppercase;">Instructor</div>
+        <h2 style="font-size:2.2rem; margin:5px 0; color:white;">OEM LIHUONG</h2>
+        <div class="ma" style="color:var(--yellow); font-weight:700;">MA in TESOL</div>
+        <div class="instr-line" style="height:1px; background:rgba(255,255,255,0.1); margin:15px 0;"></div>
+        <div class="instr-grid">
+          <div class="instr-item"><strong>UNIVERSITY</strong><p>Royal University of Phnom Penh</p></div>
+          <div class="instr-item"><strong>INSTITUTE</strong><p>Institute of Foreign Languages</p></div>
+          <div class="instr-item"><strong>SPECIALTY</strong><p>Teaching English to Speakers of Other Languages</p></div>
+		      <div class="instr-item"><strong>PHONE NUMBER</strong><p>096 8924 711</p></div>
+        </div>
+        <div class="instr-item" style="margin-top:15px;"><strong>FOCUS</strong><p>Critical Thinking & ESL Methodology</p></div>
+      </div>`;
+
+    const QUESTIONS = [
+  // =========================
+  // PART ONE: VOCAB (10)
+  // =========================
+  {id:0, s:'Vocab', q:'She is from Japan. She is _____.', c:{a:'Japanese', b:'Japenese', c:'Japanish', d:'Japan'}, a:'a'},
+  {id:1, s:'Vocab', q:'My mother’s brother is my _____.', c:{a:'cousin', b:'uncle', c:'nephew', d:'aunt'}, a:'b'},
+  {id:2, s:'Vocab', q:'A person who teaches students is a _____.', c:{a:'teacher', b:'chef', c:'doctor', d:'scientist'}, a:'a'},
+  {id:3, s:'Vocab', q:'In _____, the weather is often cold and there can be snow.', c:{a:'summer', b:'autumn', c:'spring', d:'winter'}, a:'d'},
+  {id:4, s:'Vocab', q:'There are many clouds, so it is _____.', c:{a:'cloudy', b:'windy', c:'stormy', d:'sunny'}, a:'a'},
+  {id:5, s:'Vocab', q:'I _____ homework in the evening.', c:{a:'do', b:'play', c:'make', d:'go'}, a:'a'},
+  {id:6, s:'Vocab', q:'I _____ online to shop.', c:{a:'take', b:'have', c:'do', d:'go'}, a:'d'},
+  {id:7, s:'Vocab', q:'You can borrow books from a _____.', c:{a:'bridge', b:'bank', c:'library', d:'factory'}, a:'c'},
+  {id:8, s:'Vocab', q:'The café is _____ the train station. (They are beside each other.)', c:{a:'over', b:'behind', c:'between', d:'next to'}, a:'d'},
+  {id:9, s:'Vocab', q:'“Turn left. Go straight. Don’t go into the park.” These are _____.', c:{a:'surveys', b:'festivals', c:'directions', d:'seasons'}, a:'c'},
+
+  // =========================
+  // PART TWO: GRAMMAR (10)
+  // =========================
+  {id:10, s:'Grammar', q:'My sister is a doctor. _____ name is Dara.', c:{a:'She', b:'His', c:'He', d:'Her'}, a:'d'},
+  {id:11, s:'Grammar', q:'I _____ 17 years old.', c:{a:'are', b:'am', c:'be', d:'is'}, a:'b'},
+  {id:12, s:'Grammar', q:'Where _____ you from?', c:{a:'am', b:'be', c:'is', d:'are'}, a:'d'},
+  {id:13, s:'Grammar', q:'There _____ two parks near my school.', c:{a:'isn’t', b:'is', c:'aren’t', d:'are'}, a:'d'},
+  {id:14, s:'Grammar', q:'There _____ any rain today. (negative)', c:{a:'aren’t', b:'don’t', c:'isn’t', d:'doesn’t'}, a:'c'},
+  {id:15, s:'Grammar', q:'She _____ TV in the evening.', c:{a:'watched', b:'watch', c:'watches', d:'watching'}, a:'c'},
+  {id:16, s:'Grammar', q:'_____ you play video games?', c:{a:'Does', b:'Is', c:'Do', d:'Are'}, a:'c'},
+  {id:17, s:'Grammar', q:'I have breakfast _____ 7:00.', c:{a:'in', b:'to', c:'on', d:'at'}, a:'d'},
+  {id:18, s:'Grammar', q:'We study English _____ Mondays.', c:{a:'to', b:'at', c:'on', d:'in'}, a:'c'},
+  {id:19, s:'Grammar', q:'_____ along Green Street. Then turn right.', c:{a:'Went', b:'Goes', c:'Going', d:'Go'}, a:'d'},
+
+  // =========================
+  // PART THREE: LISTENING A (5) — Introductions
+  // =========================
+  {id:20, s:'ListenA', q:'Who is 18?', c:{a:'Miguel', b:'Nobody', c:'Hana', d:'Sreyna'}, a:'c'},
+  {id:21, s:'ListenA', q:'Who is from Peru?', c:{a:'Hana', b:'Sreyna', c:'Nobody', d:'Miguel'}, a:'d'},
+  {id:22, s:'ListenA', q:'Who lives with a mother and a brother?', c:{a:'Miguel', b:'Hana', c:'Nobody', d:'Sreyna'}, a:'b'},
+  {id:23, s:'ListenA', q:'Whose mother is a teacher?', c:{a:'Miguel’s', b:'Nobody’s', c:'Hana’s', d:'Sreyna’s'}, a:'a'},
+  {id:24, s:'ListenA', q:'Sreyna wants to _____.', c:{a:'buy a shop', b:'study English and travel', c:'work in a hotel', d:'study medicine'}, a:'b'},
+
+  // =========================
+  // PART FOUR: LISTENING B (5) — Directions
+  // =========================
+  {id:25, s:'ListenB', q:'The library is _____.', c:{a:'in the museum', b:'next to the bank', c:'behind the park', d:'opposite the supermarket'}, a:'b'},
+  {id:26, s:'ListenB', q:'First, the person should _____.', c:{a:'go into the park', b:'turn left', c:'go to the cinema', d:'go along Green Street'}, a:'d'},
+  {id:27, s:'ListenB', q:'To reach the library, the person must also _____.', c:{a:'go through the supermarket', b:'turn right at the park', c:'go under the river', d:'go over the bridge'}, a:'d'},
+  {id:28, s:'ListenB', q:'The bus station is _____.', c:{a:'next to the supermarket', b:'between the library and café', c:'opposite the supermarket', d:'behind the bank'}, a:'c'},
+  {id:29, s:'ListenB', q:'Which sentence is true?', c:{a:'The library is opposite the supermarket.', b:'The bus station is next to the bank.', c:'The speaker says: \"Go straight ahead, past the park.\"', d:'The speaker says: \"Go back over the bridge.\"'}, a:'c'},
+];
+
+    let currentStep = 0;
+
+    function render(sec, targetId) {
+      const qs = QUESTIONS.filter(q => q.s === sec);
+      let html = '';
+      qs.forEach((q, i) => {
+        html += `<div class="q-box"><div class="q-text">${i+1}. ${q.q} <span style="color:#ff4d4d">*</span></div>`;
+        for(let k in q.c) {
+          html += `<label class="choice-label"><input type="radio" name="q_${q.id}" value="${k}"><span class="custom-radio"></span><span class="choice-text">${k.toUpperCase()}. ${q.c[k]}</span></label>`;
+        }
+        html += `</div>`;
+      });
+      document.getElementById(targetId).innerHTML = html;
+    }
+
+    function validateAndNext(n) {
+      document.querySelectorAll('.error-msg, .section-error').forEach(e => e.style.display = 'none');
+      if (currentStep === 0) {
+        const name = document.getElementById('studentName').value.trim();
+        const group = document.getElementById('studentClass').value.trim();
+        let valid = true;
+        if (!name) { document.getElementById('err-name').style.display = 'block'; valid = false; }
+        if (!group) { document.getElementById('err-class').style.display = 'block'; valid = false; }
+        if (!valid) return;
+      } else {
+        const radios = document.querySelectorAll(`#step-${currentStep} input[type="radio"]`);
+        const groupNames = new Set([...radios].map(r => r.name));
+        const checkedRadios = document.querySelectorAll(`#step-${currentStep} input[type="radio"]:checked`);
+        if (checkedRadios.length < groupNames.size) {
+          document.getElementById(`err-step-${currentStep}`).style.display = 'block';
+          return;
+        }
+      }
+      goToStep(n);
+    }
+
+    function goToStep(n) {
+      currentStep = n;
+      document.querySelectorAll('section').forEach(s => s.hidden = true);
+      document.getElementById('step-'+n).hidden = false;
+      document.getElementById('pb-wrap').hidden = (n === 0 || n === 5);
+      document.getElementById('p-bar').style.width = (n / 5 * 100) + '%';
+      window.scrollTo(0,0);
+    }
+
+    document.getElementById('submitBtn').onclick = () => {
+      const radios = document.querySelectorAll(`#step-4 input[type="radio"]`);
+      const groupNames = new Set([...radios].map(r => r.name));
+      const checkedRadios = document.querySelectorAll(`#step-4 input[type="radio"]:checked`);
+      if (checkedRadios.length < groupNames.size) {
+        document.getElementById('err-step-4').style.display = 'block';
+        return;
+      }
+
+      const answers = QUESTIONS.map(q => document.querySelector(`input[name="q_${q.id}"]:checked`)?.value || null);
+      const vScore = QUESTIONS.filter(q => q.s === 'Vocab').reduce((acc, q) => acc + (answers[q.id] === q.a ? 1 : 0), 0);
+      const gScore = QUESTIONS.filter(q => q.s === 'Grammar').reduce((acc, q) => acc + (answers[q.id] === q.a ? 1 : 0), 0);
+      const lScore = QUESTIONS.filter(q => q.s.includes('Listen')).reduce((acc, q) => acc + (answers[q.id] === q.a ? 1 : 0), 0);
+      const total = vScore + gScore + lScore;
+      
+      let grade = (total >= 27) ? "A" : (total >= 24) ? "B" : (total >= 21) ? "C" : (total >= 18) ? "D" : (total >= 15) ? "E" : "F";
+      
+      const pass = total >= 15;
+      document.getElementById('passMsg').textContent = pass ? 'Congratulations🎉✨' : "Don't Give up.";
+      document.getElementById('restartBtn').textContent = pass ? 'Retake the Test' : 'Do it again.';
+      
+      document.getElementById('resName').textContent = document.getElementById('studentName').value;
+      document.getElementById('resClass').textContent = document.getElementById('studentClass').value;
+      document.getElementById('resScore').textContent = `${total} / 30`;
+      document.getElementById('resGrade').textContent = `GRADE: ${grade}`;
+      document.getElementById('v-score').textContent = `${vScore} / 10`;
+      document.getElementById('g-score').textContent = `${gScore} / 10`;
+      document.getElementById('l-score').textContent = `${lScore} / 10`;
+      
+      document.getElementById('res-instructor-card').innerHTML = `<div class="instructor-card" style="grid-template-columns:150px 1fr; gap:15px; padding:15px; border-radius:15px; box-shadow:none;">${TEACHER_HTML}</div>`;
+      
+      const card = document.querySelector('#res-instructor-card .instructor-card');
+      card.querySelector('.instr-img-frame').style.height = '200px';
+      card.querySelector('h2').style.fontSize = '1.3rem';
+      
+      goToStep(5);
+    };
+
+    document.getElementById('main-instructor-card').innerHTML = TEACHER_HTML;
+    render('Vocab', 'vocab-questions'); render('Grammar', 'grammar-questions'); render('ListenA', 'listenA-questions'); render('ListenB', 'listenB-questions');
+  </script>
+</body>
+</html>
