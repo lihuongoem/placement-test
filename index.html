@@ -23,13 +23,11 @@
     body { margin: 0; font-family: 'Inter', sans-serif; background-color: var(--bg); color: var(--text); line-height: 1.4; }
     .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
 
-    /* --- HERO --- */
     .hero { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; gap: 30px; }
     .hero-text h1 { font-family: 'Playfair Display', serif; font-size: clamp(2.2rem, 5vw, 3.2rem); color: var(--yellow); margin: 0; line-height: 1.1; }
     .hero-text p { font-size: 1rem; color: var(--muted); margin-top: 8px; }
     .hero-book img { width: 140px; border-radius: 6px; box-shadow: 10px 10px 30px rgba(0,0,0,0.5); }
 
-    /* --- INSTRUCTOR CARD --- */
     .instructor-card {
       background-color: var(--card-bg);
       border-radius: 25px;
@@ -50,7 +48,6 @@
     .instr-item strong { color: var(--yellow); font-size: 0.65rem; text-transform: uppercase; display: block; margin-bottom: 3px; }
     .instr-item p { margin: 0; color: var(--muted); font-size: 0.85rem; line-height: 1.3; }
 
-    /* --- QUIZ UI --- */
     .quiz-card { background: var(--card-bg); border-radius: 20px; padding: 30px; border: 1px solid var(--border); margin-top: 20px; position: relative; }
     .input-field { width: 100%; background: rgba(0,0,0,0.3); border: 1px solid var(--border); padding: 12px; border-radius: 10px; color: white; margin-top: 5px; font-size: 0.95rem; }
     .q-box { background: var(--glass); padding: 20px; border-radius: 15px; margin-bottom: 20px; }
@@ -62,29 +59,30 @@
     .choice-label { display: flex; align-items: center; gap: 12px; padding: 12px 20px; border-radius: 12px; background: var(--choice-bg); cursor: pointer; margin-top: 8px; border: 1px solid transparent; }
     .choice-label:hover { background: #2d3748; transform: translateX(8px); border-color: rgba(247, 211, 2, 0.2); }
     .choice-label input { position: absolute; opacity: 0; }
-    .custom-radio { height: 18px; width: 18px; border: 2px solid var(--muted); border-radius: 50%; flex-shrink: 0; }
+    .custom-radio, .custom-check { height: 18px; width: 18px; border: 2px solid var(--muted); border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+    .custom-check { border-radius: 4px; }
     .choice-label input:checked ~ .custom-radio { background-color: var(--yellow); border-color: var(--yellow); }
+    .choice-label input:checked ~ .custom-check { background-color: var(--yellow); border-color: var(--yellow); }
+    .choice-label input:checked ~ .custom-check::after { content: '✓'; color: #000; font-size: 14px; font-weight: bold; }
     
     .audio-player { position: sticky; top: 10px; z-index: 100; background: #162238; padding: 10px 15px; border-radius: 12px; border: 1px solid var(--yellow); margin-bottom: 20px; }
     audio { width: 100%; height: 30px; filter: invert(100%); }
-    .instr-text { font-size: 0.85rem; color: var(--muted); margin: -5px 0 20px; font-style: italic; }
+    .instr-text { font-size: 0.85rem; color: var(--muted); margin: 5px 0 20px; font-style: italic; }
 
-    /* --- BUTTONS --- */
     .btn { padding: 14px 35px; border-radius: 10px; border: none; font-weight: 800; cursor: pointer; font-size: 1rem; }
     .btn-next { background: var(--yellow); color: var(--bg); }
     .btn-prev { background: transparent; border: 1px solid var(--border); color: var(--muted); }
 
-    /* --- RESULTS --- */
     .results-dashboard { display: grid; grid-template-columns: 350px 1fr; gap: 25px; margin-top: 30px; }
     .student-report { background: var(--card-bg); border-radius: 25px; padding: 35px; border: 1px solid var(--border); text-align: center; }
     .score-main { font-size: 4.5rem; font-weight: 800; color: var(--yellow); margin: 10px 0; }
     .grade-badge { display: inline-block; padding: 6px 30px; border-radius: 50px; background: var(--yellow); color: var(--bg); font-weight: 900; font-size: 1.2rem; margin-bottom: 20px; }
-    .breakdown-grid { display: grid; grid-template-columns: 1fr; gap: 10px; margin: 25px 0; text-align: left; max-width: 250px; margin-inline: auto; }
+    .breakdown-grid { display: grid; grid-template-columns: 1fr; gap: 10px; margin: 25px 0; text-align: left; max-width: 280px; margin-inline: auto; }
     .breakdown-box { background: var(--glass); padding: 10px 20px; border-radius: 12px; border: 1px solid var(--border); display: flex; justify-content: space-between; }
     .status-msg { font-size: 1.8rem; font-weight: 800; color: var(--yellow); margin-bottom: 10px; }
 
     .progress-wrap { width: 100%; height: 5px; background: rgba(255,255,255,0.1); border-radius: 10px; margin: 20px 0; overflow: hidden; }
-    #p-bar { height: 100%; background: var(--yellow); width: 0%; }
+    #p-bar { height: 100%; background: var(--yellow); width: 0%; transition: width 0.4s ease; }
 
     @media (max-width: 850px) {
       .hero { flex-direction: column; text-align: center; }
@@ -92,95 +90,13 @@
       .instr-img-frame { height: 350px; width: 260px; margin: 0 auto; }
     }
     [hidden] { display: none !important; }
-  /* Aurora effect for the Evaluation Report button */
-#step-5 #restartBtn{
-  position: relative;
-  overflow: hidden;
-  border: 1px solid rgba(247, 211, 2, 0.25);
-  background: rgba(255,255,255,0.03);
-  color: #e5e7eb;
-  transform: translateZ(0);
-}
 
-#step-5 #restartBtn::before,
-#step-5 #restartBtn::after{
-  content:"";
-  position:absolute;
-  inset:-60%;
-  z-index:-1;
-  opacity:0;
-  transition: opacity .35s ease, transform .35s ease;
-}
-
-#step-5 #restartBtn::before{
-  background:
-    radial-gradient(40% 35% at 20% 30%, rgba(34, 211, 238, 0.75), transparent 60%),
-    radial-gradient(35% 30% at 75% 35%, rgba(167, 139, 250, 0.75), transparent 60%),
-    radial-gradient(45% 40% at 55% 75%, rgba(110, 231, 183, 0.70), transparent 65%),
-    radial-gradient(35% 35% at 30% 80%, rgba(251, 191, 36, 0.55), transparent 65%);
-  filter: blur(18px);
-  transform: translateY(10%) rotate(6deg);
-}
-
-#step-5 #restartBtn::after{
-  background: linear-gradient(
-    120deg,
-    rgba(34, 211, 238, 0.0),
-    rgba(34, 211, 238, 0.45),
-    rgba(167, 139, 250, 0.45),
-    rgba(110, 231, 183, 0.45),
-    rgba(251, 191, 36, 0.35),
-    rgba(34, 211, 238, 0.0)
-  );
-  background-size: 220% 220%;
-  filter: blur(10px);
-  transform: translateX(-12%);
-}
-
-/* HOVER (desktop) */
-#step-5 #restartBtn:hover{
-  color:#0a1120;
-  transform: translateY(-2px);
-  border-color: rgba(247, 211, 2, 0.55);
-  box-shadow:
-    0 0 0 2px rgba(247, 211, 2, 0.15),
-    0 10px 40px rgba(34, 211, 238, 0.25),
-    0 10px 40px rgba(167, 139, 250, 0.22),
-    0 10px 40px rgba(110, 231, 183, 0.18);
-}
-
-#step-5 #restartBtn:hover::before,
-#step-5 #restartBtn:hover::after{
-  opacity:1;
-}
-
-#step-5 #restartBtn:hover::after{
-  animation: aurora-sheen 2.6s linear infinite;
-}
-
-#step-5 #restartBtn:hover::before{
-  animation: aurora-drift 3.8s ease-in-out infinite alternate;
-}
-
-/* MOBILE TAP (phones/tablets) */
-#step-5 #restartBtn:active{
-  color:#0a1120;
-}
-
-#step-5 #restartBtn:active::before,
-#step-5 #restartBtn:active::after{
-  opacity:1;
-}
-
-@keyframes aurora-sheen{
-  0%{ background-position:0% 50%; }
-  100%{ background-position:100% 50%; }
-}
-
-@keyframes aurora-drift{
-  0%{ transform: translateY(10%) rotate(6deg) scale(1.0); }
-  100%{ transform: translateY(-4%) rotate(-6deg) scale(1.08); }
-}</style>
+    #step-5 #restartBtn {
+      position: relative; overflow: hidden; border: 1px solid rgba(247, 211, 2, 0.25);
+      background: rgba(255,255,255,0.03); color: #e5e7eb;
+    }
+    #step-5 #restartBtn:hover { background: var(--yellow); color: var(--bg); }
+  </style>
 </head>
 <body>
 
@@ -193,9 +109,7 @@
         </div>
         <div class="hero-book"><img src="Unlock_3ED_LS_CT_1_Students_Book_Page_001.jpg" alt="Unlock 1"></div>
       </div>
-
       <div class="instructor-card" id="main-instructor-card"></div>
-
       <div class="quiz-card">
         <h2 style="color: var(--yellow); margin-top: 0; font-size: 1.2rem; text-transform: uppercase;">Registration</h2>
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
@@ -217,7 +131,6 @@
     <div class="progress-wrap" id="pb-wrap" hidden><div id="p-bar"></div></div>
 
     <main id="main-wizard">
-      <!-- Parts renamed to ONE, TWO, etc -->
       <section id="step-1" class="quiz-card" hidden>
         <h2 style="color:var(--yellow); font-size: 1.2rem; text-transform: uppercase;">Part ONE: Vocabulary</h2>
         <p class="instr-text">Choose the most appropriate word to complete each sentence.</p>
@@ -234,27 +147,37 @@
         <div style="display:flex; justify-content:space-between;"><button onclick="goToStep(1)" class="btn btn-prev">Back</button><button onclick="validateAndNext(3)" class="btn btn-next">Next</button></div>
       </section>
 
+      <!-- NEW LISTENING ONE -->
       <section id="step-3" class="quiz-card" hidden>
         <h2 style="color:var(--yellow); font-size: 1.2rem; text-transform: uppercase;">Part THREE: Listening One</h2>
-        <p class="instr-text">Listen and choose the correct answer.</p>
-        <div class="audio-player"><audio controls src="listening_test.mp3"></audio></div>
-        <div id="listenA-questions"></div>
-        <div id="err-step-3" class="section-error">* Fill out everything before you proceed.</div>
-        <div style="display:flex; justify-content:space-between;"><button onclick="goToStep(2)" class="btn btn-prev">Back</button><button onclick="validateAndNext(4)" class="btn btn-next">Next</button></div>
+        <p class="instr-text">Listen and tick (✓) the word you hear.</p>
+        <div class="audio-player"><audio controls src="listening_track1.mp3"></audio></div>
+        <div id="listen1-questions"></div>
+        <div style="display:flex; justify-content:space-between; margin-top:20px;"><button onclick="goToStep(2)" class="btn btn-prev">Back</button><button onclick="goToStep(4)" class="btn btn-next">Next</button></div>
       </section>
 
+      <!-- NEW LISTENING TWO -->
       <section id="step-4" class="quiz-card" hidden>
-        <h2 style="color:var(--yellow); font-size: 1.2rem; text-transform: uppercase;">Part FOUR: Listening Two</h2>
+        <h2 style="color:var(--yellow); font-size: 1.2rem; text-transform: uppercase;">Part THREE: Listening Two</h2>
         <p class="instr-text">Listen and choose the correct answer.</p>
-        <div class="audio-player"><audio controls src="listening_test.mp3"></audio></div>
-        <div id="listenB-questions"></div>
+        <div class="audio-player"><audio controls src="UNL3_LS1_SB_Unit1_Track2.mp3"></audio></div>
+        <div id="listen2-questions"></div>
         <div id="err-step-4" class="section-error">* Fill out everything before you proceed.</div>
-        <div style="display:flex; justify-content:space-between;"><button onclick="goToStep(3)" class="btn btn-prev">Back</button><button id="submitBtn" class="btn btn-next">Submit</button></div>
+        <div style="display:flex; justify-content:space-between;"><button onclick="goToStep(3)" class="btn btn-prev">Back</button><button onclick="validateAndNext(5)" class="btn btn-next">Next</button></div>
       </section>
 
-      <!-- Evaluation Report -->
-      <section id="step-5" hidden>
-        <h1 style="text-align: center; color: var(--yellow); font-family: 'Playfair Display'; font-size: 2.2rem; margin-bottom: 20px;">Evaluation Report</h1><p class="eval-subtitle">Unlock One <span>3rd Edition</span> by Cambridge</p>
+      <!-- NEW LISTENING THREE -->
+      <section id="step-5" class="quiz-card" hidden>
+        <h2 style="color:var(--yellow); font-size: 1.2rem; text-transform: uppercase;">Part THREE: Listening Three</h2>
+        <p class="instr-text">Listen again and choose True or False.</p>
+        <div class="audio-player"><audio controls src="UNL3_LS1_SB_Unit1_Track2.mp3"></audio></div>
+        <div id="listen3-questions"></div>
+        <div id="err-step-5" class="section-error">* Fill out everything before you proceed.</div>
+        <div style="display:flex; justify-content:space-between;"><button onclick="goToStep(4)" class="btn btn-prev">Back</button><button id="submitBtn" class="btn btn-next">Submit</button></div>
+      </section>
+
+      <section id="step-6" hidden>
+        <h1 style="text-align: center; color: var(--yellow); font-family: 'Playfair Display'; font-size: 2.2rem; margin-bottom: 20px;">Evaluation Report</h1>
         <div class="results-dashboard">
           <div id="res-instructor-card"></div>
           <div class="student-report">
@@ -262,13 +185,12 @@
             <h2 id="resName" style="margin: 0; font-size: 1.8rem;"></h2>
             <p id="resClass" style="color: var(--muted); margin: 5px 0 15px;"></p>
             <div class="grade-badge" id="resGrade">GRADE: F</div>
-            <div class="score-main" id="resScore">0 / 30</div>
+            <div class="score-main" id="resScore">0 / 0</div>
             <div class="breakdown-grid">
               <div class="breakdown-box"><strong>Vocabulary:</strong><span id="v-score">0/10</span></div>
               <div class="breakdown-box"><strong>Grammar:</strong><span id="g-score">0/10</span></div>
-              <div class="breakdown-box"><strong>Listening:</strong><span id="l-score">0/10</span></div>
+              <div class="breakdown-box"><strong>Listening:</strong><span id="l-score">0/19</span></div>
             </div>
-            <!-- Dynamic Button based on score -->
             <button id="restartBtn" onclick="location.reload()" class="btn btn-prev" style="width: 100%;"></button>
           </div>
         </div>
@@ -294,56 +216,59 @@
       </div>`;
 
     const QUESTIONS = [
-  // =========================
-  // PART ONE: VOCAB (10)
-  // =========================
-  {id:0, s:'Vocab', q:'She is from Japan. She is _____.', c:{a:'Japanese', b:'Japenese', c:'Japanish', d:'Japan'}, a:'a'},
-  {id:1, s:'Vocab', q:'My mother’s brother is my _____.', c:{a:'cousin', b:'uncle', c:'nephew', d:'aunt'}, a:'b'},
-  {id:2, s:'Vocab', q:'A person who teaches students is a _____.', c:{a:'teacher', b:'chef', c:'doctor', d:'scientist'}, a:'a'},
-  {id:3, s:'Vocab', q:'In _____, the weather is often cold and there can be snow.', c:{a:'summer', b:'autumn', c:'spring', d:'winter'}, a:'d'},
-  {id:4, s:'Vocab', q:'There are many clouds, so it is _____.', c:{a:'cloudy', b:'windy', c:'stormy', d:'sunny'}, a:'a'},
-  {id:5, s:'Vocab', q:'I _____ homework in the evening.', c:{a:'do', b:'play', c:'make', d:'go'}, a:'a'},
-  {id:6, s:'Vocab', q:'I _____ online to shop.', c:{a:'take', b:'have', c:'do', d:'go'}, a:'d'},
-  {id:7, s:'Vocab', q:'You can borrow books from a _____.', c:{a:'bridge', b:'bank', c:'library', d:'factory'}, a:'c'},
-  {id:8, s:'Vocab', q:'The café is _____ the train station. (They are beside each other.)', c:{a:'over', b:'behind', c:'between', d:'next to'}, a:'d'},
-  {id:9, s:'Vocab', q:'“Turn left. Go straight. Don’t go into the park.” These are _____.', c:{a:'surveys', b:'festivals', c:'directions', d:'seasons'}, a:'c'},
-
-  // =========================
-  // PART TWO: GRAMMAR (10)
-  // =========================
-  {id:10, s:'Grammar', q:'My sister is a doctor. _____ name is Dara.', c:{a:'She', b:'His', c:'He', d:'Her'}, a:'d'},
-  {id:11, s:'Grammar', q:'I _____ 17 years old.', c:{a:'are', b:'am', c:'be', d:'is'}, a:'b'},
-  {id:12, s:'Grammar', q:'Where _____ you from?', c:{a:'am', b:'be', c:'is', d:'are'}, a:'d'},
-  {id:13, s:'Grammar', q:'There _____ two parks near my school.', c:{a:'isn’t', b:'is', c:'aren’t', d:'are'}, a:'d'},
-  {id:14, s:'Grammar', q:'There _____ any rain today. (negative)', c:{a:'aren’t', b:'don’t', c:'isn’t', d:'doesn’t'}, a:'c'},
-  {id:15, s:'Grammar', q:'She _____ TV in the evening.', c:{a:'watched', b:'watch', c:'watches', d:'watching'}, a:'c'},
-  {id:16, s:'Grammar', q:'_____ you play video games?', c:{a:'Does', b:'Is', c:'Do', d:'Are'}, a:'c'},
-  {id:17, s:'Grammar', q:'I have breakfast _____ 7:00.', c:{a:'in', b:'to', c:'on', d:'at'}, a:'d'},
-  {id:18, s:'Grammar', q:'We study English _____ Mondays.', c:{a:'to', b:'at', c:'on', d:'in'}, a:'c'},
-  {id:19, s:'Grammar', q:'_____ along Green Street. Then turn right.', c:{a:'Went', b:'Goes', c:'Going', d:'Go'}, a:'d'},
-
-  // =========================
-  // PART THREE: LISTENING A (5) — Introductions
-  // =========================
-  {id:20, s:'ListenA', q:'Who is 18?', c:{a:'Miguel', b:'Nobody', c:'Hana', d:'Sreyna'}, a:'c'},
-  {id:21, s:'ListenA', q:'Who is from Peru?', c:{a:'Hana', b:'Sreyna', c:'Nobody', d:'Miguel'}, a:'d'},
-  {id:22, s:'ListenA', q:'Who lives with a mother and a brother?', c:{a:'Miguel', b:'Hana', c:'Nobody', d:'Sreyna'}, a:'b'},
-  {id:23, s:'ListenA', q:'Whose mother is a teacher?', c:{a:'Miguel’s', b:'Nobody’s', c:'Hana’s', d:'Sreyna’s'}, a:'a'},
-  {id:24, s:'ListenA', q:'Sreyna wants to _____.', c:{a:'buy a shop', b:'study English and travel', c:'work in a hotel', d:'study medicine'}, a:'b'},
-
-  // =========================
-  // PART FOUR: LISTENING B (5) — Directions
-  // =========================
-  {id:25, s:'ListenB', q:'The library is _____.', c:{a:'in the museum', b:'next to the bank', c:'behind the park', d:'opposite the supermarket'}, a:'b'},
-  {id:26, s:'ListenB', q:'First, the person should _____.', c:{a:'go into the park', b:'turn left', c:'go to the cinema', d:'go along Green Street'}, a:'d'},
-  {id:27, s:'ListenB', q:'To reach the library, the person must also _____.', c:{a:'go through the supermarket', b:'turn right at the park', c:'go under the river', d:'go over the bridge'}, a:'d'},
-  {id:28, s:'ListenB', q:'The bus station is _____.', c:{a:'next to the supermarket', b:'between the library and café', c:'opposite the supermarket', d:'behind the bank'}, a:'c'},
-  {id:29, s:'ListenB', q:'Which sentence is true?', c:{a:'The library is opposite the supermarket.', b:'The bus station is next to the bank.', c:'The speaker says: \"Go straight ahead, past the park.\"', d:'The speaker says: \"Go back over the bridge.\"'}, a:'c'},
-];
+      // Part 1: Vocab (10)
+      {id:0, s:'Vocab', q:'She is from Japan. She is _____.', c:{a:'Japanese', b:'Japenese', c:'Japanish', d:'Japan'}, a:'a'},
+      {id:1, s:'Vocab', q:'My mother’s brother is my _____.', c:{a:'cousin', b:'uncle', c:'nephew', d:'aunt'}, a:'b'},
+      {id:2, s:'Vocab', q:'A person who teaches students is a _____.', c:{a:'teacher', b:'chef', c:'doctor', d:'scientist'}, a:'a'},
+      {id:3, s:'Vocab', q:'In _____, the weather is often cold.', c:{a:'summer', b:'autumn', c:'spring', d:'winter'}, a:'d'},
+      {id:4, s:'Vocab', q:'There are many clouds, so it is _____.', c:{a:'cloudy', b:'windy', c:'stormy', d:'sunny'}, a:'a'},
+      {id:5, s:'Vocab', q:'I _____ homework in the evening.', c:{a:'do', b:'play', c:'make', d:'go'}, a:'a'},
+      {id:6, s:'Vocab', q:'I _____ online to shop.', c:{a:'take', b:'have', c:'do', d:'go'}, a:'d'},
+      {id:7, s:'Vocab', q:'You can borrow books from a _____.', c:{a:'bridge', b:'bank', c:'library', d:'factory'}, a:'c'},
+      {id:8, s:'Vocab', q:'The café is _____ the train station.', c:{a:'over', b:'behind', c:'between', d:'next to'}, a:'d'},
+      {id:9, s:'Vocab', q:'“Turn left. Go straight.” These are _____.', c:{a:'surveys', b:'festivals', c:'directions', d:'seasons'}, a:'c'},
+      // Part 2: Grammar (10)
+      {id:10, s:'Grammar', q:'My sister is a doctor. _____ name is Dara.', c:{a:'She', b:'His', c:'He', d:'Her'}, a:'d'},
+      {id:11, s:'Grammar', q:'I _____ 17 years old.', c:{a:'are', b:'am', c:'be', d:'is'}, a:'b'},
+      {id:12, s:'Grammar', q:'Where _____ you from?', c:{a:'am', b:'be', c:'is', d:'are'}, a:'d'},
+      {id:13, s:'Grammar', q:'There _____ two parks near my school.', c:{a:'isn’t', b:'is', c:'aren’t', d:'are'}, a:'d'},
+      {id:14, s:'Grammar', q:'There _____ any rain today.', c:{a:'aren’t', b:'don’t', c:'isn’t', d:'doesn’t'}, a:'c'},
+      {id:15, s:'Grammar', q:'She _____ TV in the evening.', c:{a:'watched', b:'watch', c:'watches', d:'watching'}, a:'c'},
+      {id:16, s:'Grammar', q:'_____ you play video games?', c:{a:'Does', b:'Is', c:'Do', d:'Are'}, a:'c'},
+      {id:17, s:'Grammar', q:'I have breakfast _____ 7:00.', c:{a:'in', b:'to', c:'on', d:'at'}, a:'d'},
+      {id:18, s:'Grammar', q:'We study English _____ Mondays.', c:{a:'to', b:'at', c:'on', d:'in'}, a:'c'},
+      {id:19, s:'Grammar', q:'_____ along Green Street.', c:{a:'Went', b:'Goes', c:'Going', d:'Go'}, a:'d'},
+      // Part 3: Listen 1 (Tick heard words)
+      {id:20, s:'Listen1', q:'introduce', heard:true},
+      {id:21, s:'Listen1', q:'please', heard:true},
+      {id:22, s:'Listen1', q:'Peru', heard:true},
+      {id:23, s:'Listen1', q:'Learning', heard:false},
+      {id:24, s:'Listen1', q:'Turkiye', heard:true},
+      {id:25, s:'Listen1', q:'twenty', heard:true},
+      {id:26, s:'Listen1', q:'understand', heard:false},
+      {id:27, s:'Listen1', q:'eighteen', heard:true},
+      {id:28, s:'Listen1', q:'study', heard:true},
+      {id:29, s:'Listen1', q:'Trees', heard:false},
+      {id:30, s:'Listen1', q:'business', heard:true},
+      {id:31, s:'Listen1', q:'computer', heard:true},
+      {id:32, s:'Listen1', q:'books', heard:false},
+      {id:33, s:'Listen1', q:'college', heard:true},
+      // Part 3: Listen 2 (MCQ)
+      {id:34, s:'Listen2', q:'1 The students talk about ...', c:{a:'teachers in their school.', b:'students in their class.', c:'their friends at home.'}, a:'b'},
+      {id:35, s:'Listen2', q:'2 They tell us about their ...', c:{a:'families.', b:'holidays.', c:'homes.'}, a:'a'},
+      {id:36, s:'Listen2', q:'3 They also tell us what they want to ...', c:{a:'do on holiday.', b:'do at home.', c:'study at university.'}, a:'c'},
+      // Part 3: Listen 3 (True/False)
+      {id:37, s:'Listen3', q:'1 Koko\'s a student.', c:{a:'True', b:'False'}, a:'a'},
+      {id:38, s:'Listen3', q:'2 Koko is 18.', c:{a:'True', b:'False'}, a:'a'},
+      {id:39, s:'Listen3', q:'3 Nehir is 19.', c:{a:'True', b:'False'}, a:'a'},
+      {id:40, s:'Listen3', q:'4 Nehir has a sister.', c:{a:'True', b:'False'}, a:'b'},
+      {id:41, s:'Listen3', q:'5 Carlos\'s father is a doctor.', c:{a:'True', b:'False'}, a:'b'},
+      {id:42, s:'Listen3', q:'6 Carlos wants to study Business.', c:{a:'True', b:'False'}, a:'b'}
+    ];
 
     let currentStep = 0;
 
-    function render(sec, targetId) {
+    function renderRegular(sec, targetId) {
       const qs = QUESTIONS.filter(q => q.s === sec);
       let html = '';
       qs.forEach((q, i) => {
@@ -356,23 +281,28 @@
       document.getElementById(targetId).innerHTML = html;
     }
 
+    function renderCheckboxes() {
+      const qs = QUESTIONS.filter(q => q.s === 'Listen1');
+      let html = '<div class="q-box" style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">';
+      qs.forEach(q => {
+        html += `<label class="choice-label"><input type="checkbox" name="chk_${q.id}"><span class="custom-check"></span><span class="choice-text">${q.q}</span></label>`;
+      });
+      html += '</div>';
+      document.getElementById('listen1-questions').innerHTML = html;
+    }
+
     function validateAndNext(n) {
       document.querySelectorAll('.error-msg, .section-error').forEach(e => e.style.display = 'none');
       if (currentStep === 0) {
         const name = document.getElementById('studentName').value.trim();
         const group = document.getElementById('studentClass').value.trim();
-        let valid = true;
-        if (!name) { document.getElementById('err-name').style.display = 'block'; valid = false; }
-        if (!group) { document.getElementById('err-class').style.display = 'block'; valid = false; }
-        if (!valid) return;
-      } else {
+        if (!name) { document.getElementById('err-name').style.display = 'block'; return; }
+        if (!group) { document.getElementById('err-class').style.display = 'block'; return; }
+      } else if (currentStep === 1 || currentStep === 2 || currentStep === 4 || currentStep === 5) {
         const radios = document.querySelectorAll(`#step-${currentStep} input[type="radio"]`);
         const groupNames = new Set([...radios].map(r => r.name));
-        const checkedRadios = document.querySelectorAll(`#step-${currentStep} input[type="radio"]:checked`);
-        if (checkedRadios.length < groupNames.size) {
-          document.getElementById(`err-step-${currentStep}`).style.display = 'block';
-          return;
-        }
+        const checked = document.querySelectorAll(`#step-${currentStep} input[type="radio"]:checked`);
+        if (checked.length < groupNames.size) { document.getElementById(`err-step-${currentStep}`).style.display = 'block'; return; }
       }
       goToStep(n);
     }
@@ -381,51 +311,58 @@
       currentStep = n;
       document.querySelectorAll('section').forEach(s => s.hidden = true);
       document.getElementById('step-'+n).hidden = false;
-      document.getElementById('pb-wrap').hidden = (n === 0 || n === 5);
-      document.getElementById('p-bar').style.width = (n / 5 * 100) + '%';
+      document.getElementById('pb-wrap').hidden = (n === 0 || n === 6);
+      document.getElementById('p-bar').style.width = (n / 6 * 100) + '%';
       window.scrollTo(0,0);
     }
 
     document.getElementById('submitBtn').onclick = () => {
-      const radios = document.querySelectorAll(`#step-4 input[type="radio"]`);
-      const groupNames = new Set([...radios].map(r => r.name));
-      const checkedRadios = document.querySelectorAll(`#step-4 input[type="radio"]:checked`);
-      if (checkedRadios.length < groupNames.size) {
-        document.getElementById('err-step-4').style.display = 'block';
-        return;
-      }
+      const checkedRadios = document.querySelectorAll(`#step-5 input[type="radio"]:checked`);
+      if (checkedRadios.length < 6) { document.getElementById('err-step-5').style.display = 'block'; return; }
 
-      const answers = QUESTIONS.map(q => document.querySelector(`input[name="q_${q.id}"]:checked`)?.value || null);
-      const vScore = QUESTIONS.filter(q => q.s === 'Vocab').reduce((acc, q) => acc + (answers[q.id] === q.a ? 1 : 0), 0);
-      const gScore = QUESTIONS.filter(q => q.s === 'Grammar').reduce((acc, q) => acc + (answers[q.id] === q.a ? 1 : 0), 0);
-      const lScore = QUESTIONS.filter(q => q.s.includes('Listen')).reduce((acc, q) => acc + (answers[q.id] === q.a ? 1 : 0), 0);
-      const total = vScore + gScore + lScore;
+      let vScore = QUESTIONS.filter(q => q.s === 'Vocab').reduce((acc, q) => acc + (document.querySelector(`input[name="q_${q.id}"]:checked`)?.value === q.a ? 1 : 0), 0);
+      let gScore = QUESTIONS.filter(q => q.s === 'Grammar').reduce((acc, q) => acc + (document.querySelector(`input[name="q_${q.id}"]:checked`)?.value === q.a ? 1 : 0), 0);
       
-      let grade = (total >= 27) ? "A" : (total >= 24) ? "B" : (total >= 21) ? "C" : (total >= 18) ? "D" : (total >= 15) ? "E" : "F";
+      let l1Score = QUESTIONS.filter(q => q.s === 'Listen1').reduce((acc, q) => {
+        const isChecked = document.querySelector(`input[name="chk_${q.id}"]`).checked;
+        return acc + (isChecked === q.heard ? 1 : 0);
+      }, 0);
+      let l2Score = QUESTIONS.filter(q => q.s === 'Listen2').reduce((acc, q) => acc + (document.querySelector(`input[name="q_${q.id}"]:checked`)?.value === q.a ? 1 : 0), 0);
+      let l3Score = QUESTIONS.filter(q => q.s === 'Listen3').reduce((acc, q) => acc + (document.querySelector(`input[name="q_${q.id}"]:checked`)?.value === q.a ? 1 : 0), 0);
+
+      const totalListen = l1Score + l2Score + l3Score; // Max 14+3+6 = 23
+      const grandTotal = vScore + gScore + totalListen; // Max 10+10+23 = 43
       
-      const pass = total >= 15;
+      const pass = grandTotal >= 22;
       document.getElementById('passMsg').textContent = pass ? 'Congratulations🎉✨' : "Don't Give up.";
       document.getElementById('restartBtn').textContent = pass ? 'Retake the Test' : 'Do it again.';
-      
       document.getElementById('resName').textContent = document.getElementById('studentName').value;
       document.getElementById('resClass').textContent = document.getElementById('studentClass').value;
-      document.getElementById('resScore').textContent = `${total} / 30`;
+      document.getElementById('resScore').textContent = `${grandTotal} / 43`;
+      
+      let grade = "F";
+      let pct = (grandTotal/43)*100;
+      if(pct >= 90) grade="A"; else if(pct >= 80) grade="B"; else if(pct >= 70) grade="C"; else if(pct >= 60) grade="D"; else if(pct >= 50) grade="E";
       document.getElementById('resGrade').textContent = `GRADE: ${grade}`;
+      
       document.getElementById('v-score').textContent = `${vScore} / 10`;
       document.getElementById('g-score').textContent = `${gScore} / 10`;
-      document.getElementById('l-score').textContent = `${lScore} / 10`;
-      
-      document.getElementById('res-instructor-card').innerHTML = `<div class="instructor-card" style="grid-template-columns:150px 1fr; gap:15px; padding:15px; border-radius:15px; box-shadow:none;">${TEACHER_HTML}</div>`;
+      document.getElementById('l-score').textContent = `${totalListen} / 23`;
+      document.getElementById('res-instructor-card').innerHTML = `<div class="instructor-card" style="grid-template-columns:140px 1fr; gap:15px; padding:15px; border-radius:15px; box-shadow:none;">${TEACHER_HTML}</div>`;
       
       const card = document.querySelector('#res-instructor-card .instructor-card');
-      card.querySelector('.instr-img-frame').style.height = '200px';
+      card.querySelector('.instr-img-frame').style.height = '180px';
       card.querySelector('h2').style.fontSize = '1.3rem';
       
-      goToStep(5);
+      goToStep(6);
     };
 
     document.getElementById('main-instructor-card').innerHTML = TEACHER_HTML;
-    render('Vocab', 'vocab-questions'); render('Grammar', 'grammar-questions'); render('ListenA', 'listenA-questions'); render('ListenB', 'listenB-questions');
+    renderRegular('Vocab', 'vocab-questions');
+    renderRegular('Grammar', 'grammar-questions');
+    renderCheckboxes();
+    renderRegular('Listen2', 'listen2-questions');
+    renderRegular('Listen3', 'listen3-questions');
   </script>
 </body>
 </html>
