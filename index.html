@@ -23,35 +23,37 @@
     body { margin: 0; font-family: 'Inter', sans-serif; background-color: var(--bg); color: var(--text); line-height: 1.4; }
     .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
 
+    /* --- HERO --- */
     .hero { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; gap: 30px; }
     .hero-text h1 { font-family: 'Playfair Display', serif; font-size: clamp(2.2rem, 5vw, 3.2rem); color: var(--yellow); margin: 0; line-height: 1.1; }
     .hero-text p { font-size: 1rem; color: var(--muted); margin-top: 8px; }
     .hero-book img { width: 140px; border-radius: 6px; box-shadow: 10px 10px 30px rgba(0,0,0,0.5); }
 
+    /* --- INSTRUCTOR CARD --- */
     .instructor-card {
       background-color: var(--card-bg);
       border-radius: 25px;
       padding: 25px;
       display: grid;
-      grid-template-columns: 220px 1fr;
+      grid-template-columns: 180px 1fr; /* Smaller Image Column */
       gap: 30px;
       border: 1px solid var(--border);
       box-shadow: 0 10px 30px rgba(0,0,0,0.4);
       margin-bottom: 25px;
     }
-    .instr-img-frame { border: 3px solid var(--yellow); border-radius: 18px; overflow: hidden; height: 280px; }
+    .instr-img-frame { border: 3px solid var(--yellow); border-radius: 18px; overflow: hidden; height: 260px; /* Smaller Image Height */ }
     .instr-img-frame img { width: 100%; height: 100%; object-fit: cover; }
-    .instr-body h2 { font-size: 2.2rem; margin: 5px 0; font-weight: 800; line-height: 1; color: white; }
+    .instr-body h2 { font-size: 1.8rem; margin: 5px 0; font-weight: 800; line-height: 1; color: white; }
     .instr-body .ma { color: var(--yellow); font-weight: 700; font-size: 1rem; margin: 8px 0 15px; }
     .instr-line { height: 1px; background: rgba(255,255,255,0.1); margin-bottom: 15px; }
     .instr-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
     .instr-item strong { color: var(--yellow); font-size: 0.65rem; text-transform: uppercase; display: block; margin-bottom: 3px; }
     .instr-item p { margin: 0; color: var(--muted); font-size: 0.85rem; line-height: 1.3; }
 
+    /* --- QUIZ UI --- */
     .quiz-card { background: var(--card-bg); border-radius: 20px; padding: 30px; border: 1px solid var(--border); margin-top: 20px; position: relative; }
     .input-field { width: 100%; background: rgba(0,0,0,0.3); border: 1px solid var(--border); padding: 12px; border-radius: 10px; color: white; margin-top: 5px; font-size: 0.95rem; }
     .q-box { background: var(--glass); padding: 20px; border-radius: 15px; margin-bottom: 20px; }
-    .q-text { font-weight: 700; font-size: 1.05rem; margin-bottom: 15px; }
     
     .error-msg { color: var(--error); font-size: 0.75rem; margin-top: 5px; display: none; }
     .section-error { color: var(--error); font-size: 0.85rem; text-align: right; margin-bottom: 10px; display: none; }
@@ -65,6 +67,7 @@
     .choice-label input:checked ~ .custom-check { background-color: var(--yellow); border-color: var(--yellow); }
     .choice-label input:checked ~ .custom-check::after { content: '✓'; color: #000; font-size: 14px; font-weight: bold; }
     
+    /* Sticky Audio Player */
     .audio-player { position: sticky; top: 10px; z-index: 100; background: #162238; padding: 10px 15px; border-radius: 12px; border: 1px solid var(--yellow); margin-bottom: 20px; }
     audio { width: 100%; height: 30px; filter: invert(100%); }
     .instr-text { font-size: 0.85rem; color: var(--muted); margin: 5px 0 20px; font-style: italic; }
@@ -73,6 +76,7 @@
     .btn-next { background: var(--yellow); color: var(--bg); }
     .btn-prev { background: transparent; border: 1px solid var(--border); color: var(--muted); }
 
+    /* --- RESULTS --- */
     .results-dashboard { display: grid; grid-template-columns: 350px 1fr; gap: 25px; margin-top: 30px; }
     .student-report { background: var(--card-bg); border-radius: 25px; padding: 35px; border: 1px solid var(--border); text-align: center; }
     .score-main { font-size: 4.5rem; font-weight: 800; color: var(--yellow); margin: 10px 0; }
@@ -87,15 +91,9 @@
     @media (max-width: 850px) {
       .hero { flex-direction: column; text-align: center; }
       .instructor-card, .results-dashboard { grid-template-columns: 1fr; }
-      .instr-img-frame { height: 350px; width: 260px; margin: 0 auto; }
+      .instr-img-frame { height: 260px; width: 180px; margin: 0 auto; }
     }
     [hidden] { display: none !important; }
-
-    #step-5 #restartBtn {
-      position: relative; overflow: hidden; border: 1px solid rgba(247, 211, 2, 0.25);
-      background: rgba(255,255,255,0.03); color: #e5e7eb;
-    }
-    #step-5 #restartBtn:hover { background: var(--yellow); color: var(--bg); }
   </style>
 </head>
 <body>
@@ -147,16 +145,15 @@
         <div style="display:flex; justify-content:space-between;"><button onclick="goToStep(1)" class="btn btn-prev">Back</button><button onclick="validateAndNext(3)" class="btn btn-next">Next</button></div>
       </section>
 
-      <!-- NEW LISTENING ONE -->
       <section id="step-3" class="quiz-card" hidden>
         <h2 style="color:var(--yellow); font-size: 1.2rem; text-transform: uppercase;">Part THREE: Listening One</h2>
         <p class="instr-text">Listen and tick (✓) the word you hear.</p>
-        <div class="audio-player"><audio controls src="listening_track1.mp3"></audio></div>
+        <div class="audio-player"><audio controls src="UNL3_LS1_SB_Unit1_Track1.mp3"></audio></div>
         <div id="listen1-questions"></div>
-        <div style="display:flex; justify-content:space-between; margin-top:20px;"><button onclick="goToStep(2)" class="btn btn-prev">Back</button><button onclick="goToStep(4)" class="btn btn-next">Next</button></div>
+        <div id="err-step-3" class="section-error">* Fill out everything before you proceed.</div>
+        <div style="display:flex; justify-content:space-between; margin-top:20px;"><button onclick="goToStep(2)" class="btn btn-prev">Back</button><button onclick="validateAndNext(4)" class="btn btn-next">Next</button></div>
       </section>
 
-      <!-- NEW LISTENING TWO -->
       <section id="step-4" class="quiz-card" hidden>
         <h2 style="color:var(--yellow); font-size: 1.2rem; text-transform: uppercase;">Part THREE: Listening Two</h2>
         <p class="instr-text">Listen and choose the correct answer.</p>
@@ -166,7 +163,6 @@
         <div style="display:flex; justify-content:space-between;"><button onclick="goToStep(3)" class="btn btn-prev">Back</button><button onclick="validateAndNext(5)" class="btn btn-next">Next</button></div>
       </section>
 
-      <!-- NEW LISTENING THREE -->
       <section id="step-5" class="quiz-card" hidden>
         <h2 style="color:var(--yellow); font-size: 1.2rem; text-transform: uppercase;">Part THREE: Listening Three</h2>
         <p class="instr-text">Listen again and choose True or False.</p>
@@ -185,11 +181,11 @@
             <h2 id="resName" style="margin: 0; font-size: 1.8rem;"></h2>
             <p id="resClass" style="color: var(--muted); margin: 5px 0 15px;"></p>
             <div class="grade-badge" id="resGrade">GRADE: F</div>
-            <div class="score-main" id="resScore">0 / 0</div>
+            <div class="score-main" id="resScore">0 / 43</div>
             <div class="breakdown-grid">
               <div class="breakdown-box"><strong>Vocabulary:</strong><span id="v-score">0/10</span></div>
               <div class="breakdown-box"><strong>Grammar:</strong><span id="g-score">0/10</span></div>
-              <div class="breakdown-box"><strong>Listening:</strong><span id="l-score">0/19</span></div>
+              <div class="breakdown-box"><strong>Listening:</strong><span id="l-score">0/23</span></div>
             </div>
             <button id="restartBtn" onclick="location.reload()" class="btn btn-prev" style="width: 100%;"></button>
           </div>
@@ -216,7 +212,6 @@
       </div>`;
 
     const QUESTIONS = [
-      // Part 1: Vocab (10)
       {id:0, s:'Vocab', q:'She is from Japan. She is _____.', c:{a:'Japanese', b:'Japenese', c:'Japanish', d:'Japan'}, a:'a'},
       {id:1, s:'Vocab', q:'My mother’s brother is my _____.', c:{a:'cousin', b:'uncle', c:'nephew', d:'aunt'}, a:'b'},
       {id:2, s:'Vocab', q:'A person who teaches students is a _____.', c:{a:'teacher', b:'chef', c:'doctor', d:'scientist'}, a:'a'},
@@ -227,7 +222,6 @@
       {id:7, s:'Vocab', q:'You can borrow books from a _____.', c:{a:'bridge', b:'bank', c:'library', d:'factory'}, a:'c'},
       {id:8, s:'Vocab', q:'The café is _____ the train station.', c:{a:'over', b:'behind', c:'between', d:'next to'}, a:'d'},
       {id:9, s:'Vocab', q:'“Turn left. Go straight.” These are _____.', c:{a:'surveys', b:'festivals', c:'directions', d:'seasons'}, a:'c'},
-      // Part 2: Grammar (10)
       {id:10, s:'Grammar', q:'My sister is a doctor. _____ name is Dara.', c:{a:'She', b:'His', c:'He', d:'Her'}, a:'d'},
       {id:11, s:'Grammar', q:'I _____ 17 years old.', c:{a:'are', b:'am', c:'be', d:'is'}, a:'b'},
       {id:12, s:'Grammar', q:'Where _____ you from?', c:{a:'am', b:'be', c:'is', d:'are'}, a:'d'},
@@ -238,7 +232,6 @@
       {id:17, s:'Grammar', q:'I have breakfast _____ 7:00.', c:{a:'in', b:'to', c:'on', d:'at'}, a:'d'},
       {id:18, s:'Grammar', q:'We study English _____ Mondays.', c:{a:'to', b:'at', c:'on', d:'in'}, a:'c'},
       {id:19, s:'Grammar', q:'_____ along Green Street.', c:{a:'Went', b:'Goes', c:'Going', d:'Go'}, a:'d'},
-      // Part 3: Listen 1 (Tick heard words)
       {id:20, s:'Listen1', q:'introduce', heard:true},
       {id:21, s:'Listen1', q:'please', heard:true},
       {id:22, s:'Listen1', q:'Peru', heard:true},
@@ -253,17 +246,15 @@
       {id:31, s:'Listen1', q:'computer', heard:true},
       {id:32, s:'Listen1', q:'books', heard:false},
       {id:33, s:'Listen1', q:'college', heard:true},
-      // Part 3: Listen 2 (MCQ)
-      {id:34, s:'Listen2', q:'1 The students talk about ...', c:{a:'teachers in their school.', b:'students in their class.', c:'their friends at home.'}, a:'b'},
-      {id:35, s:'Listen2', q:'2 They tell us about their ...', c:{a:'families.', b:'holidays.', c:'homes.'}, a:'a'},
-      {id:36, s:'Listen2', q:'3 They also tell us what they want to ...', c:{a:'do on holiday.', b:'do at home.', c:'study at university.'}, a:'c'},
-      // Part 3: Listen 3 (True/False)
-      {id:37, s:'Listen3', q:'1 Koko\'s a student.', c:{a:'True', b:'False'}, a:'a'},
-      {id:38, s:'Listen3', q:'2 Koko is 18.', c:{a:'True', b:'False'}, a:'a'},
-      {id:39, s:'Listen3', q:'3 Nehir is 19.', c:{a:'True', b:'False'}, a:'a'},
-      {id:40, s:'Listen3', q:'4 Nehir has a sister.', c:{a:'True', b:'False'}, a:'b'},
-      {id:41, s:'Listen3', q:'5 Carlos\'s father is a doctor.', c:{a:'True', b:'False'}, a:'b'},
-      {id:42, s:'Listen3', q:'6 Carlos wants to study Business.', c:{a:'True', b:'False'}, a:'b'}
+      {id:34, s:'Listen2', q:'The students talk about ...', c:{a:'teachers in their school.', b:'students in their class.', c:'their friends at home.'}, a:'b'},
+      {id:35, s:'Listen2', q:'They tell us about their ...', c:{a:'families.', b:'holidays.', c:'homes.'}, a:'a'},
+      {id:36, s:'Listen2', q:'They also tell us what they want to ...', c:{a:'do on holiday.', b:'do at home.', c:'study at university.'}, a:'c'},
+      {id:37, s:'Listen3', q:'Koko\'s a student.', c:{a:'True', b:'False'}, a:'a'},
+      {id:38, s:'Listen3', q:'Koko is 18.', c:{a:'True', b:'False'}, a:'a'},
+      {id:39, s:'Listen3', q:'Nehir is 19.', c:{a:'True', b:'False'}, a:'a'},
+      {id:40, s:'Listen3', q:'Nehir has a sister.', c:{a:'True', b:'False'}, a:'b'},
+      {id:41, s:'Listen3', q:'Carlos\'s father is a doctor.', c:{a:'True', b:'False'}, a:'b'},
+      {id:42, s:'Listen3', q:'Carlos wants to study Business.', c:{a:'True', b:'False'}, a:'b'}
     ];
 
     let currentStep = 0;
@@ -303,6 +294,8 @@
         const groupNames = new Set([...radios].map(r => r.name));
         const checked = document.querySelectorAll(`#step-${currentStep} input[type="radio"]:checked`);
         if (checked.length < groupNames.size) { document.getElementById(`err-step-${currentStep}`).style.display = 'block'; return; }
+      } else if (currentStep === 3) {
+         // Special case for step 3 checkboxes - always allows Next
       }
       goToStep(n);
     }
@@ -322,38 +315,27 @@
 
       let vScore = QUESTIONS.filter(q => q.s === 'Vocab').reduce((acc, q) => acc + (document.querySelector(`input[name="q_${q.id}"]:checked`)?.value === q.a ? 1 : 0), 0);
       let gScore = QUESTIONS.filter(q => q.s === 'Grammar').reduce((acc, q) => acc + (document.querySelector(`input[name="q_${q.id}"]:checked`)?.value === q.a ? 1 : 0), 0);
-      
-      let l1Score = QUESTIONS.filter(q => q.s === 'Listen1').reduce((acc, q) => {
-        const isChecked = document.querySelector(`input[name="chk_${q.id}"]`).checked;
-        return acc + (isChecked === q.heard ? 1 : 0);
-      }, 0);
+      let l1Score = QUESTIONS.filter(q => q.s === 'Listen1').reduce((acc, q) => (document.querySelector(`input[name="chk_${q.id}"]`).checked === q.heard ? acc + 1 : acc), 0);
       let l2Score = QUESTIONS.filter(q => q.s === 'Listen2').reduce((acc, q) => acc + (document.querySelector(`input[name="q_${q.id}"]:checked`)?.value === q.a ? 1 : 0), 0);
       let l3Score = QUESTIONS.filter(q => q.s === 'Listen3').reduce((acc, q) => acc + (document.querySelector(`input[name="q_${q.id}"]:checked`)?.value === q.a ? 1 : 0), 0);
 
-      const totalListen = l1Score + l2Score + l3Score; // Max 14+3+6 = 23
-      const grandTotal = vScore + gScore + totalListen; // Max 10+10+23 = 43
-      
-      const pass = grandTotal >= 22;
+      const totalListen = l1Score + l2Score + l3Score;
+      const grandTotal = vScore + gScore + totalListen;
+      const pass = grandTotal >= 15;
+
       document.getElementById('passMsg').textContent = pass ? 'Congratulations🎉✨' : "Don't Give up.";
       document.getElementById('restartBtn').textContent = pass ? 'Retake the Test' : 'Do it again.';
       document.getElementById('resName').textContent = document.getElementById('studentName').value;
       document.getElementById('resClass').textContent = document.getElementById('studentClass').value;
       document.getElementById('resScore').textContent = `${grandTotal} / 43`;
       
-      let grade = "F";
       let pct = (grandTotal/43)*100;
-      if(pct >= 90) grade="A"; else if(pct >= 80) grade="B"; else if(pct >= 70) grade="C"; else if(pct >= 60) grade="D"; else if(pct >= 50) grade="E";
+      let grade = pct >= 90 ? "A" : pct >= 80 ? "B" : pct >= 70 ? "C" : pct >= 60 ? "D" : pct >= 50 ? "E" : "F";
       document.getElementById('resGrade').textContent = `GRADE: ${grade}`;
-      
       document.getElementById('v-score').textContent = `${vScore} / 10`;
       document.getElementById('g-score').textContent = `${gScore} / 10`;
       document.getElementById('l-score').textContent = `${totalListen} / 23`;
       document.getElementById('res-instructor-card').innerHTML = `<div class="instructor-card" style="grid-template-columns:140px 1fr; gap:15px; padding:15px; border-radius:15px; box-shadow:none;">${TEACHER_HTML}</div>`;
-      
-      const card = document.querySelector('#res-instructor-card .instructor-card');
-      card.querySelector('.instr-img-frame').style.height = '180px';
-      card.querySelector('h2').style.fontSize = '1.3rem';
-      
       goToStep(6);
     };
 
