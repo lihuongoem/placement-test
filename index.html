@@ -35,13 +35,13 @@
       border-radius: 25px;
       padding: 25px;
       display: grid;
-      grid-template-columns: 180px 1fr; /* Smaller Image Column */
+      grid-template-columns: 180px 1fr;
       gap: 30px;
       border: 1px solid var(--border);
       box-shadow: 0 10px 30px rgba(0,0,0,0.4);
       margin-bottom: 25px;
     }
-    .instr-img-frame { border: 3px solid var(--yellow); border-radius: 18px; overflow: hidden; height: 260px; /* Smaller Image Height */ }
+    .instr-img-frame { border: 3px solid var(--yellow); border-radius: 18px; overflow: hidden; height: 260px; }
     .instr-img-frame img { width: 100%; height: 100%; object-fit: cover; }
     .instr-body h2 { font-size: 1.8rem; margin: 5px 0; font-weight: 800; line-height: 1; color: white; }
     .instr-body .ma { color: var(--yellow); font-weight: 700; font-size: 1rem; margin: 8px 0 15px; }
@@ -145,15 +145,16 @@
         <div style="display:flex; justify-content:space-between;"><button onclick="goToStep(1)" class="btn btn-prev">Back</button><button onclick="validateAndNext(3)" class="btn btn-next">Next</button></div>
       </section>
 
+      <!-- Part THREE: Listening One -->
       <section id="step-3" class="quiz-card" hidden>
         <h2 style="color:var(--yellow); font-size: 1.2rem; text-transform: uppercase;">Part THREE: Listening One</h2>
         <p class="instr-text">Listen and tick (✓) the word you hear.</p>
         <div class="audio-player"><audio controls src="UNL3_LS1_SB_Unit1_Track1.mp3"></audio></div>
         <div id="listen1-questions"></div>
-        <div id="err-step-3" class="section-error">* Fill out everything before you proceed.</div>
-        <div style="display:flex; justify-content:space-between; margin-top:20px;"><button onclick="goToStep(2)" class="btn btn-prev">Back</button><button onclick="validateAndNext(4)" class="btn btn-next">Next</button></div>
+        <div style="display:flex; justify-content:space-between; margin-top:20px;"><button onclick="goToStep(2)" class="btn btn-prev">Back</button><button onclick="goToStep(4)" class="btn btn-next">Next</button></div>
       </section>
 
+      <!-- Part THREE: Listening Two -->
       <section id="step-4" class="quiz-card" hidden>
         <h2 style="color:var(--yellow); font-size: 1.2rem; text-transform: uppercase;">Part THREE: Listening Two</h2>
         <p class="instr-text">Listen and choose the correct answer.</p>
@@ -163,6 +164,7 @@
         <div style="display:flex; justify-content:space-between;"><button onclick="goToStep(3)" class="btn btn-prev">Back</button><button onclick="validateAndNext(5)" class="btn btn-next">Next</button></div>
       </section>
 
+      <!-- Part THREE: Listening Three -->
       <section id="step-5" class="quiz-card" hidden>
         <h2 style="color:var(--yellow); font-size: 1.2rem; text-transform: uppercase;">Part THREE: Listening Three</h2>
         <p class="instr-text">Listen again and choose True or False.</p>
@@ -232,6 +234,7 @@
       {id:17, s:'Grammar', q:'I have breakfast _____ 7:00.', c:{a:'in', b:'to', c:'on', d:'at'}, a:'d'},
       {id:18, s:'Grammar', q:'We study English _____ Mondays.', c:{a:'to', b:'at', c:'on', d:'in'}, a:'c'},
       {id:19, s:'Grammar', q:'_____ along Green Street.', c:{a:'Went', b:'Goes', c:'Going', d:'Go'}, a:'d'},
+      // Listen 1 (Tick heard)
       {id:20, s:'Listen1', q:'introduce', heard:true},
       {id:21, s:'Listen1', q:'please', heard:true},
       {id:22, s:'Listen1', q:'Peru', heard:true},
@@ -246,15 +249,17 @@
       {id:31, s:'Listen1', q:'computer', heard:true},
       {id:32, s:'Listen1', q:'books', heard:false},
       {id:33, s:'Listen1', q:'college', heard:true},
-      {id:34, s:'Listen2', q:'The students talk about ...', c:{a:'teachers in their school.', b:'students in their class.', c:'their friends at home.'}, a:'b'},
-      {id:35, s:'Listen2', q:'They tell us about their ...', c:{a:'families.', b:'holidays.', c:'homes.'}, a:'a'},
-      {id:36, s:'Listen2', q:'They also tell us what they want to ...', c:{a:'do on holiday.', b:'do at home.', c:'study at university.'}, a:'c'},
-      {id:37, s:'Listen3', q:'Koko\'s a student.', c:{a:'True', b:'False'}, a:'a'},
-      {id:38, s:'Listen3', q:'Koko is 18.', c:{a:'True', b:'False'}, a:'a'},
-      {id:39, s:'Listen3', q:'Nehir is 19.', c:{a:'True', b:'False'}, a:'a'},
-      {id:40, s:'Listen3', q:'Nehir has a sister.', c:{a:'True', b:'False'}, a:'b'},
-      {id:41, s:'Listen3', q:'Carlos\'s father is a doctor.', c:{a:'True', b:'False'}, a:'b'},
-      {id:42, s:'Listen3', q:'Carlos wants to study Business.', c:{a:'True', b:'False'}, a:'b'}
+      // Listen 2 (MCQ)
+      {id:34, s:'Listen2', q:'1 The students talk about ...', c:{a:'teachers in their school.', b:'students in their class.', c:'their friends at home.'}, a:'b'},
+      {id:35, s:'Listen2', q:'2 They tell us about their ...', c:{a:'families.', b:'holidays.', c:'homes.'}, a:'a'},
+      {id:36, s:'Listen2', q:'3 They also tell us what they want to ...', c:{a:'do on holiday.', b:'do at home.', c:'study at university.'}, a:'c'},
+      // Listen 3 (TF)
+      {id:37, s:'Listen3', q:'1 Koko\'s a student.', c:{a:'True', b:'False'}, a:'a'},
+      {id:38, s:'Listen3', q:'2 Koko is 18.', c:{a:'True', b:'False'}, a:'a'},
+      {id:39, s:'Listen3', q:'3 Nehir is 19.', c:{a:'True', b:'False'}, a:'a'},
+      {id:40, s:'Listen3', q:'4 Nehir has a sister.', c:{a:'True', b:'False'}, a:'b'},
+      {id:41, s:'Listen3', q:'5 Carlos\'s father is a doctor.', c:{a:'True', b:'False'}, a:'b'},
+      {id:42, s:'Listen3', q:'6 Carlos wants to study Business.', c:{a:'True', b:'False'}, a:'b'}
     ];
 
     let currentStep = 0;
@@ -294,8 +299,6 @@
         const groupNames = new Set([...radios].map(r => r.name));
         const checked = document.querySelectorAll(`#step-${currentStep} input[type="radio"]:checked`);
         if (checked.length < groupNames.size) { document.getElementById(`err-step-${currentStep}`).style.display = 'block'; return; }
-      } else if (currentStep === 3) {
-         // Special case for step 3 checkboxes - always allows Next
       }
       goToStep(n);
     }
